@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     addNewActivity() {
-        console.log(`Adding new activity: ${this.newActivity}`);
         const currentTs = Math.floor(Date.now() / 1000)
         let activity = {};
         activity[currentTs] = this.newActivity;
@@ -43,5 +42,8 @@ export default {
         this.newActivity = null;
     }
   },
+  mounted() {
+      this.$store.dispatch('activitiesGet');
+  }
 }
 </script>
