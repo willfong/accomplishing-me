@@ -1,9 +1,16 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <nav class="level">
+      <p class="level-item has-text-centered">
+        <span class="title">Accomplishing Me</span>
+      </p>
+      <p class="level-item has-text-centered">
+        <router-link to="/" class="link is-info">Today</router-link>
+      </p>
+      <p class="level-item has-text-centered">
+        <router-link to="/about" class="link is-info">Menu</router-link>
+      </p>
+    </nav>
     <router-view/>
   </div>
 </template>
