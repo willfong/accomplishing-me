@@ -32,27 +32,21 @@ export default {
     async write(row) {
 		let db = await this.getDb();
 		return new Promise(resolve => {
-			let tx = db.transaction([DB_TABLE],'readwrite');
-			tx.oncomplete = () => {
-				resolve();
-			};
-			let store = tx.objectStore(DB_TABLE);
-			store.put(row);
+			let store = db.transaction([DB_TABLE],'readwrite').objectStore(DB_TABLE);
+			let request = store.put(row);
+            request.onsuccess = () => {
+                resolve();
+            }
 		});
 	
     },
 	async read(id) {
 		let db = await this.getDb();
 		return new Promise(resolve => {
-            let tx = db.transaction([DB_TABLE],'readonly');
-            tx.oncomplete = () => {
-				resolve(results.value);
-			};
-            let store = tx.objectStore(DB_TABLE);
+            let store = db.transaction([DB_TABLE],'readonly').objectStore(DB_TABLE);
             var request = store.get(id);
-            let results;
             request.onsuccess = () => {
-                results = request.result;
+                resolve(request.result.value);
             }
 		});
 	},
