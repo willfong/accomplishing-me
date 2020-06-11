@@ -9,9 +9,10 @@ const DB_NAME = 'accomplishingme';
 const DB_VERSION = 1;
 let DB;
 const DB_TABLE = 'kvstore';
+const DB_SCHEMA = {keyPath:'id'};
 
 export default {
-    async getDb() {
+  async getDb() {
 		return new Promise((resolve, reject) => {
 			if(DB) { return resolve(DB); }
 			let request = window.indexedDB.open(DB_NAME, DB_VERSION);
@@ -26,29 +27,38 @@ export default {
 			request.onupgradeneeded = e => {
 				console.log('onupgradeneeded');
 				let db = e.target.result;
-				db.createObjectStore(DB_TABLE, {keyPath:'id'});
+				db.createObjectStore(DB_TABLE, DB_SCHEMA);
 			};
 		});
 	},
-    async write(row) {
+	async write(row) {
 		let db = await this.getDb();
 		return new Promise(resolve => {
 			let store = db.transaction([DB_TABLE],'readwrite').objectStore(DB_TABLE);
 			let request = store.put(row);
-            request.onsuccess = () => {
-                resolve();
-            }
+			request.onsuccess = () => {
+				resolve();
+			}
 		});
-	
-    },
+	},
 	async read(id) {
 		let db = await this.getDb();
 		return new Promise(resolve => {
-            let store = db.transaction([DB_TABLE],'readonly').objectStore(DB_TABLE);
-            var request = store.get(id);
-            request.onsuccess = () => {
-                resolve(request.result.value);
-            }
+      let store = db.transaction([DB_TABLE],'readonly').objectStore(DB_TABLE);
+      let request = store.get(id);
+      request.onsuccess = () => {
+        resolve(request.result);
+      }
+		});
+	},
+	async reset() {
+		let db = await this.getDb();
+		return new Promise(resolve => {
+			let store = db.transaction([DB_TABLE],'readwrite').objectStore(DB_TABLE);
+			let request = store.clear();
+			request.onsuccess = () => {
+				resolve();
+			}
 		});
 	},
 }

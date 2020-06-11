@@ -10,7 +10,9 @@ export default new Vuex.Store({
   },
   mutations: {
     async IDB_ACTIVITIES(state) {
-      state.activities = await idb.read('activities');
+			// TODO: Wonder if there's a cleaner way of doing this?
+			const activities = await idb.read('activities');
+      state.activities = (activities && 'value' in activities) ? activities['value'] : {};
     },
   },
   actions: {
@@ -20,7 +22,10 @@ export default new Vuex.Store({
     async activitiesNew({commit, state}, activity) {
       await idb.write({id: 'activities', value: {...state.activities, ...activity}});
       commit('IDB_ACTIVITIES');
-    }
+		},
+		async deleteAllData() {
+			await idb.reset();
+		},
   },
   getters: {
     activities: state => state.activities,
