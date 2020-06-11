@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="subtitle">Today's Activity</h1>
-    <div class="field has-addons" v-if="moment(selectedDate).format('YYMMDD') == moment().format('YYMMDD')">
+    <div class="field has-addons" v-if="selectedToday">
         <div class="control is-expanded">
             <input class="input" type="text" ref="newActivity" v-model="newActivity" placeholder="New Activity" v-on:keyup.enter="addNewActivity">
         </div>
@@ -29,11 +29,15 @@ export default {
     ...mapGetters([
 			"activities",
 			"selectedDate"
-    ])
+		]),
+		selectedToday() {
+			return this.moment(this.selectedDate).format('YYMMDD') == this.moment().format('YYMMDD');
+		}
 	},
 	watch: {
 		selectedDate() {
 			this.$store.dispatch('activitiesGet');
+			this.focusInputBox();
 		}
 	},
   data() {
@@ -48,11 +52,14 @@ export default {
         activity[currentTs] = this.newActivity;
         this.$store.dispatch('activitiesNew', activity);
         this.newActivity = null;
-    }
+		},
+		focusInputBox() {
+			if (this.selectedToday) this.$nextTick(() => this.$refs.newActivity.focus());
+		}
   },
   mounted() {
     this.$store.dispatch('activitiesGet');
-    this.$nextTick(() => this.$refs.newActivity.focus())
+    this.focusInputBox();
   }
 }
 </script>
