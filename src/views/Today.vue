@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="subtitle">{{moment().format('MMMM Do YYYY, h:mm:ss a')}}</h1>
+    <h1 class="subtitle">{{moment().format('MMMM Do YYYY')}}</h1>
     <div class="columns">
       <div class="column">
         <TodaysTasks />

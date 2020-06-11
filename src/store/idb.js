@@ -1,7 +1,8 @@
 // With thanks: https://www.raymondcamden.com/2019/10/16/using-indexeddb-with-vuejs
 // https://developers.google.com/web/ilt/pwa/working-with-indexeddb
 
-// Using IndexedDB for key/value storage. Not using LocalStorage for the 5MB limit
+// Using IndexedDB for simple key/value storage.
+// Not using LocalStorage for the 5MB limit
 // Expected row: {id, value}
 
 const DB_NAME = 'accomplishingme';

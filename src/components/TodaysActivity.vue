@@ -1,20 +1,22 @@
 <template>
   <div>
-    <p>Today's Activity</p>
+    <h1 class="subtitle">Today's Activity</h1>
     <div class="field has-addons">
-        <div class="control">
-            <input class="input" type="text" v-model="newActivity" placeholder="New Activity">
+        <div class="control is-expanded">
+            <input class="input" type="text" ref="newActivity" v-model="newActivity" placeholder="New Activity" v-on:keyup.enter="addNewActivity">
         </div>
         <div class="control">
             <a class="button is-info" @click="addNewActivity">Add</a>
         </div>
     </div>
     <ul>
-        <li v-for="ts in Object.keys(activities)" :key="ts">{{activities[ts]}} <small>{{ts}}</small></li>
+        <li v-for="ts in Object.keys(activities)" :key="ts">{{activities[ts]}} <small class="is-pulled-right">{{moment.unix(ts).fromNow()}}</small></li>
     </ul>
+    <!--
     <hr />
     <p class="has-text-grey-light">New Activity: {{newActivity}}</p>
     <p class="has-text-grey-light">Activities: {{activities}}</p>
+    -->
   </div>
 </template>
 
@@ -43,7 +45,8 @@ export default {
     }
   },
   mounted() {
-      this.$store.dispatch('activitiesGet');
+    this.$store.dispatch('activitiesGet');
+    this.$nextTick(() => this.$refs.newActivity.focus())
   }
 }
 </script>
