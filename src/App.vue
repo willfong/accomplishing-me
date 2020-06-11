@@ -8,6 +8,9 @@
         <router-link to="/" class="link is-info">Today</router-link>
       </p>
       <p class="level-item has-text-centered">
+        <router-link to="/tasks" class="link is-info">Tasks</router-link>
+      </p>
+      <p class="level-item has-text-centered">
         <router-link to="/settings" class="link is-info">Settings</router-link>
       </p>
     </nav>
