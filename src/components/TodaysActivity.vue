@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1 class="subtitle">Today's Activity</h1>
-    <div class="field has-addons">
+    <div class="field has-addons" v-if="moment(selectedDate).format('YYMMDD') == moment().format('YYMMDD')">
         <div class="control is-expanded">
             <input class="input" type="text" ref="newActivity" v-model="newActivity" placeholder="New Activity" v-on:keyup.enter="addNewActivity">
         </div>
@@ -24,17 +24,23 @@
 import { mapGetters } from "vuex";
 
 export default {
-    name: 'TodaysActivity',
-    computed: {
-        ...mapGetters([
-        "activities",
-        ])
-    },
-    data() {
-        return {
-            newActivity: null,
-        }
-  },
+  name: 'TodaysActivity',
+  computed: {
+    ...mapGetters([
+			"activities",
+			"selectedDate"
+    ])
+	},
+	watch: {
+		selectedDate() {
+			this.$store.dispatch('activitiesGet');
+		}
+	},
+  data() {
+		return {
+			newActivity: null,
+		}
+	},
   methods: {
     addNewActivity() {
         const currentTs = Date.now();
