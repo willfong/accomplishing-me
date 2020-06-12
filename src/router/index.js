@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Today from '@/views/Today.vue'
 import Settings from '@/views/Settings.vue'
 import Tasks from '@/views/Tasks.vue'
+import Routines from '@/views/Routines.vue'
+import Goals from '@/views/Goals.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +23,16 @@ Vue.use(VueRouter)
     path: '/tasks',
     name: 'Tasks',
     component: Tasks
+	},
+	{
+    path: '/goals',
+    name: 'Goals',
+    component: Goals
+	},
+  {
+    path: '/routines',
+    name: 'Routines',
+    component: Routines
   },
 ]
 
