@@ -5,6 +5,8 @@ import Settings from '@/views/Settings.vue'
 import Tasks from '@/views/Tasks.vue'
 import Routines from '@/views/Routines.vue'
 import Goals from '@/views/Goals.vue'
+import Projects from '@/views/Projects.vue'
+import Cv from '@/views/Cv.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +35,16 @@ Vue.use(VueRouter)
     path: '/routines',
     name: 'Routines',
     component: Routines
+	},
+	{
+    path: '/cv',
+    name: 'Cv',
+    component: Cv
+	},
+  {
+    path: '/projects',
+    name: 'Projects',
+    component: Projects
   },
 ]
 

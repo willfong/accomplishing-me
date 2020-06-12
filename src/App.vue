@@ -11,10 +11,16 @@
         <router-link to="/goals" class="link is-info">Goals</router-link>
       </p>
       <p class="level-item has-text-centered">
+        <router-link to="/projects" class="link is-info">Projects</router-link>
+      </p>
+      <p class="level-item has-text-centered">
         <router-link to="/routines" class="link is-info">Routines</router-link>
       </p>
       <p class="level-item has-text-centered">
         <router-link to="/tasks" class="link is-info">Tasks</router-link>
+      </p>
+      <p class="level-item has-text-centered">
+        <router-link to="/cv" class="link is-info">CV/Resume</router-link>
       </p>
       <p class="level-item has-text-centered">
         <router-link to="/settings" class="link is-info">Settings</router-link>
