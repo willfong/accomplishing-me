@@ -101,16 +101,6 @@ export default {
 			if (this.showAllTasks) return allTasks;
 			if (this.showLowPriority) return allTasks.filter(task => !task.completed);
 			return allTasks.filter(task => !task.completed && (task.urgent || task.important));
-			/*
-			let shown = [];
-			Object.keys(this.tasks).forEach(key => {
-				let v = this.tasks[key];
-				if (!this.showAllTasks && v.completed) return;
-				v['id'] = key;
-				shown.push(v);
-			});
-			return shown;
-			*/
 		},
 	},
   components: {	

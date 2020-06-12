@@ -16,8 +16,10 @@ export default new Vuex.Store({
 		selectedDate: new Date(),
 		activities: {},
 		tasks: {},
+		routines: {},
   },
   mutations: {
+		// IDB is the source of truth. To modify state, modify IDB which then gets pulled into state.
 		SELECTED_DATE(state, newDate) {
 			state.selectedDate = newDate;
 		},
@@ -32,40 +34,66 @@ export default new Vuex.Store({
 			const tasks = await idb.read('tasks');
 			state.tasks = (tasks && 'value' in tasks) ? tasks['value'] : {};
 		},
-		TASKS_COMPLETE(state, id) {
-			state.tasks[id]['completed'] = true;
+		async IDB_ROUTINES(state) {
+			const routines = await idb.read('routines');
+			state.routines = (routines && 'value' in routines) ? routines['value'] : {};
 		},
   },
   actions: {
 		async deleteAllData() {
+			// IDB is the source of truth. Deleting from IDB will eventually reset all state.
 			await idb.reset();
 		},
 		updateSelectedDate({commit}, newDate) {
 			commit('SELECTED_DATE', newDate);
 		},
-    async activitiesGet({commit}) {
+    activitiesGet({commit}) {
       commit('IDB_ACTIVITIES');
     },
     async activitiesNew({commit, state}, activity) {
-			// TODO: Investigate if there is a way state is different than what is on IDB?
       await idb.write({id: `activities_${moment(state.selectedDate).format('YYMMDD')}`, value: {...state.activities, ...activity}});
       commit('IDB_ACTIVITIES');
 		},
-		async tasksGet({commit}) {
+		tasksGet({commit}) {
 			commit('IDB_TASKS');
 		},
 		async tasksNew({commit, state}, task) {
 			await idb.write({id: 'tasks', value: {...state.tasks, ...task}});
 			commit('IDB_TASKS');
 		},
-		taskComplete({commit, state}, taskId) {
-			commit('TASKS_COMPLETE', taskId);
-			idb.write({id: 'tasks', value: state.tasks});
+		async taskComplete({commit, state}, id) {
+			let tasks = state.tasks;
+			tasks[id]['completed'] = true;
+			await idb.write({id: 'tasks', value: tasks});
+			commit('IDB_TASKS');
+		},
+		routinesGet({commit}) {
+			commit('IDB_ROUTINES');
+		},
+		async routinesAdd({commit, state}, routine) {
+			await idb.write({id: 'routines', value: {...state.routines, ...routine}});
+			commit('IDB_ROUTINES');
+		},
+		async routinesDelete({commit, state}, routineId) {
+			let routines = state.routines;
+			delete routines[routineId];
+			await idb.write({id: 'routines', value: routines});
+			commit('IDB_ROUTINES');
 		},
   },
   getters: {
 		activities: state => state.activities,
 		selectedDate: state => state.selectedDate,
 		tasks: state => state.tasks,
+		routines: state => state.routines,
+		routinesList: state => {
+			let r = [];
+			Object.keys(state.routines).forEach(key => {
+				let routine = state.routines[key];
+				routine['id'] = key;
+				r.push(routine);
+			});
+			return r;
+		}
   }
 })
