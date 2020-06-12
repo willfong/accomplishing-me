@@ -4,16 +4,16 @@
 		<p>Tasks are one-time actions that you need to do. Focus on the urgent and important tasks first.</p>
 		<p>For recurring tasks, please put them under routines.</p>
 		<p>https://jamesclear.com/eisenhower-box</p>
-		<button class="button is-primary" @click="newModalActive = true">Add New Task</button>
-		<div class="field">
+		
+		<div class="field is-grouped">
+			
 			<b-checkbox v-model="showAllTasks">
 				Show All
 			</b-checkbox>
-		</div>
-		<div class="field">
 			<b-checkbox v-model="showLowPriority" :disabled="showAllTasks">
 				Show Low Priority
 			</b-checkbox>
+			<button class="button is-primary has-pulled-right" @click="newModalActive = true">Add New Task</button>
 		</div>
 		<div class="notification" v-for="task in shownTasks" :key="task.id">
 			<h1 class="subtitle">
