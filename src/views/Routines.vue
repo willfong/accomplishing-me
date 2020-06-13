@@ -59,6 +59,16 @@
             </b-checkbox>
         </div>
 				<div class="field is-grouped">
+					<b-field label="Repetitions">
+						<b-input v-model="newRoutineReps" placeholder="optional"></b-input>
+					</b-field>
+					<b-checkbox v-model="newRoutineAddNote">
+                Add note when completed
+          </b-checkbox>
+				</div>
+				
+
+				<div class="field is-grouped">
 					<div class="control">
 						<button class="button is-link" @click="submitRoutine">Add</button>
 					</div>
@@ -72,7 +82,11 @@
 			<div class="box">
 				<h1 class="title">Edit Routine</h1>
 				<hr />
-
+				<div class="field">
+            <b-switch v-model="newRoutineEnabled">
+                {{ newRoutineEnabled ? 'This routine is enabled' : 'This routine is disabled' }}
+            </b-switch>
+        </div>
 				<b-field label="Routine">
 						<b-input v-model="newRoutineName"></b-input>
 				</b-field>
@@ -107,6 +121,16 @@
                 Sunday
             </b-checkbox>
         </div>
+
+				<div class="field is-grouped">
+					<b-field label="Repetitions">
+						<b-input v-model="newRoutineReps" placeholder="optional"></b-input>
+					</b-field>
+					<b-checkbox v-model="newRoutineAddNote">
+                Add note when completed
+          </b-checkbox>
+				</div>
+
 				<div class="field is-grouped">
 					<div class="control">
 						<button class="button is-link" @click="submitRoutine">Update</button>
@@ -149,6 +173,9 @@ export default {
 			newModalActive: false,
 			newRoutineName: null,
 			newRoutineDays: [],
+			newRoutineReps: null,
+			newRoutineAddNote: false,
+			newRoutineEnabled: true,
 			editRoutine: false,
 			editModalActive: false,
 		}
@@ -170,6 +197,8 @@ export default {
 				if (this.routines[this.editRoutine].d5) days.push('d5');
 				if (this.routines[this.editRoutine].d6) days.push('d6');
 				this.newRoutineDays = days;
+				this.newRoutineReps = this.routines[this.editRoutine].reps;
+				this.newRoutineAddNote = this.routines[this.editRoutine].addNote;
 			}
 		},
 		editModalActive() {
@@ -197,6 +226,9 @@ export default {
 				d4: this.newRoutineDays.includes("d4"),
 				d5: this.newRoutineDays.includes("d5"),
 				d6: this.newRoutineDays.includes("d6"),
+				reps: this.newRoutineReps,
+				addNote: this.newRoutineAddNote,
+				enabled: this.newRoutineEnabled,
 			};
 			this.$store.dispatch("routinesAdd", routine);
 			this.resetForm();
